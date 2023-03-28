@@ -120,6 +120,7 @@ int main()
     modify(ld, "cn=qqqw,ou=test,dc=skf,dc=loc",
             "groupType: -2147483640",
             0);
+            
     search(ld, attr, base, filter);
     renames(ld, "cn=qqqw,ou=test,dc=skf,dc=loc", "cn=qqqwwww", NULL);
     search(ld, attr, base, filter);
