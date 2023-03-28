@@ -59,7 +59,7 @@ void iterr(char *dn, char *attr, char *val, int not_printable);
 void search(LDAP *ld, char *attr, char *base, char *filter);
 void delete(LDAP *ld, char *dn);
 void renames(LDAP *ld, char *dn, char *new_rdn, char *new_parent);
-void modifys(LDAP *ld, const char *dn, char *mods, int newentry);
+void modify(LDAP *ld, const char *dn, char *mods, int newentry);
 
 static char *prep_dn = NULL;
 static char *error_msg = NULL;
@@ -69,7 +69,7 @@ int main()
     int rc;
     LDAP *ld = NULL;
     
-    char *ccache = "/tmp/.private/_foreman/EduRsbk5kclECl-_XxiTiw",
+    char *ccache = NULL,
          *login = "testldap@SKF.LOC",
          *passwd = "Passw0rd?" /* NULL */,
          *client_keytab = NULL/* "/opt/stats/stats.keytab" */,
@@ -108,7 +108,7 @@ int main()
 
     search(ld, attr, base, filter);
 
-    modifys(ld, "cn=qqqw,ou=test,dc=skf,dc=loc",
+    modify(ld, "cn=qqqw,ou=test,dc=skf,dc=loc",
             "objectClass: group;objectClass: top;cn: qqqw;instanceType: 4;name: qqqw;sAMAccountName: qqqw",
             1);
 
@@ -117,7 +117,7 @@ int main()
     /* "-2147483646" Глобальная*/
     /* "-2147483640" Универсальная*/
     /* "-2147483644" Локальная*/
-    modifys(ld, "cn=qqqw,ou=test,dc=skf,dc=loc",
+    modify(ld, "cn=qqqw,ou=test,dc=skf,dc=loc",
             "groupType: -2147483640",
             0);
     search(ld, attr, base, filter);
@@ -208,7 +208,7 @@ void renames(LDAP *ld, char *dn, char *new_rdn, char *new_parent)
     printf("tool_rename is OK\n");
 }
 
-void modifys(LDAP *ld, const char *dn, char *mods, int newentry)
+void modify(LDAP *ld, const char *dn, char *mods, int newentry)
 {
     int rc = tool_modify(ld, dn, mods, newentry, &error_msg, ";");
     if (rc != 0)
